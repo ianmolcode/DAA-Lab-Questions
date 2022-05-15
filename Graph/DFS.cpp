@@ -19,6 +19,6 @@ void DFS(vector<int> adj, int v, int s)
     // or
     bool visited[v];
     for (int i = 0; i < v; i++)
-        visited[v] = false;
+        visited[i] = false;
     DFS_Final(adj, s);
 }

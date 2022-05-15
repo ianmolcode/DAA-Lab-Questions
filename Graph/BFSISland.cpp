@@ -48,7 +48,7 @@ void BFSUtil(int u, vector<int> adj[],
 
 // This function does BFSUtil() for all
 // unvisited vertices.
-void BFS(vector<int> adj[], int V)
+int BFS(vector<int> adj[], int V)
 {
     int count = 0;
 
