@@ -1,54 +1,58 @@
-// detect cycle in an undirected graph using disjoint set
-#include <iostream>
+
 #include <bits/stdc++.h>
 using namespace std;
 
 vector<int> dsuf;
+// FIND operation
 int find(int v)
 {
-    if (dsuf == -1)
+    if (dsuf[v] == -1)
         return v;
     return find(dsuf[v]);
 }
-void union_op(int fromp, int top)
+
+void union_op(int fromP, int toP)
 {
+    fromP = find(fromP);
+    toP = find(toP);
+    dsuf[fromP] = toP;
 }
 
-bool isCyclic(vector<pair<int, int>> &edge_list)
+bool isCyclic(vector<pair<int, int>> &edge_List)
 {
-    // finding absolute parent of pair
-    for (auto p : edge_list)
+    for (auto p : edge_List)
     {
-        int fromp = find(p.first); // first  ka root node
-        int top = find(p.second);  // second ka root node
+        int fromP = find(p.first); // FIND absolute parent of subset
+        int toP = find(p.second);
 
-        // agar root node dono ke same hue tau, they belong to same set
-        // and cycle is form
-        if (fromp == top)
+        if (fromP == toP)
             return true;
-        // agar nahin hue tau we have to do a union operation
-        union_op(fromp, top);
+
+        // UNION operation
+        union_op(fromP, toP); // UNION of 2 sets
     }
     return false;
 }
 
 int main()
 {
-    int E;
-    int V;
-    cin << E << V;
-    dsuf.resize(V, -1);
-    vector<pair<int, int>> edge_list; // adjacency list
-    for (int i = 0; i < V; i++)
+    int E; // No of edges
+    int V; // No of vertices (0 to V-1)
+    cin >> E >> V;
+
+    dsuf.resize(V, -1);               // Mark all vertices as separate subsets with only 1 element
+    vector<pair<int, int>> edge_List; // Adjacency list
+    for (int i = 0; i < E; ++i)
     {
-        int from;
-        int to;
+        int from, to;
         cin >> from >> to;
-        edge_list.push_back({from, to});
+        edge_List.push_back({from, to});
     }
-    if (isCyclic(edge_list))
-        cout << "true";
+
+    if (isCyclic(edge_List))
+        cout << "TRUE\n";
     else
-        cout << "false";
+        cout << "FALSE\n";
+
     return 0;
 }
